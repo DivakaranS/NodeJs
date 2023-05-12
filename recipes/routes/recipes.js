@@ -2,20 +2,15 @@ var recipes = require('../recipes.json');
 var router = require('express').Router();
 
 router.get('/', (req, res) => {
-    let limit = 3;
-    let start = 0;
-    if (req.query.limit != undefined) {
-        limit = parseInt(req.query.limit);
-    }
+    const pageno = req.query.page != undefined ? +req.query.page : 1;
+    const size = req.query.limit != undefined ? +req.query.limit: 3;
+
+    const data = recipes.slice(size * (pageno - 1), size * pageno);
+ 
     res.writeHead(200, {
         'Content-Type': 'application/json'
     });
-    if (req.query.page == undefined) {
-        res.end(JSON.stringify(recipes.slice(0, limit)));
-    } else if (req.query.page != undefined) {
-        res.end(JSON.stringify(recipes.slice((limit * req.query.page) - limit, limit * req.query.page)));
-    }
-
+    res.end(JSON.stringify(data));
 });
 
 
