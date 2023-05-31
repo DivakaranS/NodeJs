@@ -18,7 +18,7 @@ describe('express_authorization_middleware', () => {
         }
     });
 
-
+ 
     it('Should send a 403 if the x-role header is not present', done => {
         chai.request(server)
             .get('/tasks/3')
